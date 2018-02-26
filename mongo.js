@@ -1,3 +1,5 @@
+//Mongo Level 1 
+
 /* global db use */
 //to create monsters collection
 db.createCollection("monsters");
@@ -57,3 +59,75 @@ db.monsters.find({
 db.monsters.find({
     "Stats.Defense":9
 })
+
+//Mongo Level 3 
+//Sample Database
+{
+    "name": "Bat",
+    "Level": 4,
+    "health": 25,
+    "type": "Flying",
+    "attacks": ["scratch", "bite"],
+    "stats": {
+        "attack": 5,
+        "defense": 2
+    }
+    "style": "cool"
+}
+
+var mongo = function(db){
+    //find all monsters with attack < 10
+    db.monster.find({
+        "Level": {
+            "$lt": 10
+        }
+    })
+    
+    //find all monsters with levels above 5 but below 15 inclusive
+    db.monster.find({
+        "Level": {
+            "$gt": 5,
+            "$lte": 15
+        }
+    })
+    
+    //find monsters that don't have bite attack
+    db.monster.find({
+        "attack": {
+            "$ne": "bite"
+        }
+    })
+    
+    //find monsters with levels < 6 but only return the name, level & health attributes
+    db.monster.find({
+        "Level": {
+            "$lt": 6
+        }
+    },
+    {
+        "name": true,
+        "Level": true,
+        "health": true
+    })
+    
+    //find all monsters whose attack is between 10 & 20 - but doesn't include monster health or style
+    db.monster.find({
+        "Level": {
+            "$gte": 10,
+            "$lte": 20
+        }
+    },
+    {
+       "health": false,
+       "style": false
+    })
+    
+    //find out how many monsters are in the collection
+    db.monster.find().count()
+    
+    //sort the collection by the monsters level w/ the highest level at the top and the lowest at the bottom
+    db.monster.find().sort({
+        "Level": 1
+    })
+    
+}
